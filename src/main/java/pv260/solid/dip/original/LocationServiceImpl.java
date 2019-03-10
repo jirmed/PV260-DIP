@@ -6,16 +6,16 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public Location getLocation() {
-        return new Location(getLatitude(),getLongitude());
+        return new Location(getLatitude(), getLongitude());
     }
 
     @Override
     public double getLatitude() {
-        return 16.6050103;
+        return 49.1973419;
     }
 
     @Override
     public double getLongitude() {
-        return 49.1973419;
+        return 16.6050103;
     }
 }

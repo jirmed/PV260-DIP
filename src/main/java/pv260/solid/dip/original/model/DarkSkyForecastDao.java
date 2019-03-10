@@ -24,8 +24,11 @@ public class DarkSkyForecastDao {
     }
 
     public DarkSkyForecastResponse query(Location location, LocalDate localDate) throws IOException {
-        try (Reader responseReader = getReader(localDate, location)) {
+        Reader responseReader = getReader(localDate, location);
+        try {
             return parseDarkSkyForecastResponse(responseReader);
+        } finally {
+            responseReader.close();
         }
     }
 
@@ -48,8 +51,8 @@ public class DarkSkyForecastDao {
                 .stream(queryParams)
                 .collect(Collectors.joining("&", SERVICE_URL
                         + apiKey + '/'
-                        + location.getLongitude() + ','
                         + location.getLatitude() + ','
+                        + location.getLongitude() + ','
                         + time + '?', ""));
     }
 
