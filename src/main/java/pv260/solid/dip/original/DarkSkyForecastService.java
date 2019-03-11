@@ -1,17 +1,16 @@
 package pv260.solid.dip.original;
 
-import pv260.solid.dip.original.model.DarkSkyForecastDao;
-
 import java.io.IOException;
 
 public class DarkSkyForecastService implements WeatherService {
 
-    private final DarkSkyForecastDao darkSkyForecastDao = new DarkSkyForecastDao();
+    private final DarkSkyForecastQueryService darkSkyForecastQueryService;
 
     private final LocationService locationService;
     private final TimeService timeService;
 
-    public DarkSkyForecastService(LocationService locationService, TimeService timeService) {
+    public DarkSkyForecastService(DarkSkyForecastQueryService darkSkyForecastQueryService, LocationService locationService, TimeService timeService) {
+        this.darkSkyForecastQueryService = darkSkyForecastQueryService;
         this.locationService = locationService;
         this.timeService = timeService;
     }
@@ -23,7 +22,7 @@ public class DarkSkyForecastService implements WeatherService {
 
     @Override
     public double findTomorrowsAverageTemperature() throws IOException {
-        return darkSkyForecastDao.query(locationService.getLocation(), timeService.getTomorrow()).getDaily().getData()
+        return darkSkyForecastQueryService.query(locationService.getLocation(), timeService.getTomorrow()).getDaily().getData()
                 .stream().filter(dailyData -> timeService.isTomorrow(dailyData.getLocalDateTime()))
                 .mapToDouble(value -> (value.getTemperatureMax() + value.getTemperatureMin()) / 2)
                 .findFirst()
