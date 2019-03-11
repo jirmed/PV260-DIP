@@ -23,7 +23,7 @@ public class OpenWeatherMapService implements WeatherService {
                 .filter(forecastTime -> this.timeService.isTomorrowLunchTime(forecastTime.getFrom(), forecastTime.getTo()))
                 .mapToDouble(temperature -> temperature.getTemperature().getValue())
                 .findFirst()
-                .orElseThrow(IOException::new);
+                .orElseThrow(() -> new IllegalStateException("External service did not return record for tomorrow around lunch"));
     }
 
     @Override
@@ -32,8 +32,7 @@ public class OpenWeatherMapService implements WeatherService {
                 .filter(forecastTime -> this.timeService.isTomorrow(forecastTime.getLocalDateTime()))
                 .mapToDouble(value -> value.getTemperature().getValue())
                 .average()
-                .orElseThrow(IOException::new);
-
+                .orElseThrow(() -> new IllegalStateException("External service did not return record for tomorrow"));
     }
 
 }

@@ -51,7 +51,6 @@ public class DarkSkyForecastQueryService {
         Proxy proxy = proxyService==null?Proxy.NO_PROXY:proxyService.getProxy();
         HttpURLConnection connection = (HttpURLConnection) remote.openConnection(proxy);
         connection.setConnectTimeout(CONNECTION_TIMEOUT);
-//        connection.usingProxy();
         return new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8);
     }
 

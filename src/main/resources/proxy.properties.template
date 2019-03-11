@@ -1,0 +1,3 @@
+proxy_type=HTTP
+proxy_host=proxy.company.com
+proxy_port=80
