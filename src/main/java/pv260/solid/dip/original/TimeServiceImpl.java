@@ -1,13 +1,25 @@
 package pv260.solid.dip.original;
 
+import org.springframework.stereotype.Component;
+
+import javax.inject.Inject;
+import java.time.Clock;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+@Component
 public class TimeServiceImpl implements TimeService {
+
+    @Inject
+    private Clock clock;
+
+    public void setClock(Clock clock) {
+        this.clock = clock;
+    }
 
     @Override
     public LocalDate getTomorrow() {
-        return LocalDate.now().plusDays(1);
+        return LocalDate.now(clock).plusDays(1);
     }
 
     @Override

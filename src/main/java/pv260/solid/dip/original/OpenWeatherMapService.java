@@ -2,13 +2,27 @@ package pv260.solid.dip.original;
 
 import java.io.IOException;
 
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Component;
 import pv260.solid.dip.original.model.OpenWeatherMapResponse;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
+@Component
+@Primary
+@Named("OpenWeatherMap")
 public class OpenWeatherMapService implements WeatherService {
 
+    @Inject
     private final OpenWeatherMapQueryService openWeatherMapQueryService;
+
+    @Inject
     private final TimeService timeService;
+
+    @Inject
     private final LocationService locationService;
+
 
     public OpenWeatherMapService(OpenWeatherMapQueryService openWeatherMapQueryService, TimeService timeService, LocationService locationService) {
         this.openWeatherMapQueryService = openWeatherMapQueryService;

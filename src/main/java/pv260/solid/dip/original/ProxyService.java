@@ -1,13 +1,16 @@
 package pv260.solid.dip.original;
 
 
-import java.io.IOException;
+import org.springframework.stereotype.Component;
+
+
 import java.io.InputStream;
 import java.net.*;
 import java.util.Properties;
 
+@Component
 public class ProxyService {
-    private Proxy proxy;
+    private final Proxy proxy;
 
     public ProxyService() {
         this.proxy = getProxyFromPropertiesFile();
@@ -19,7 +22,7 @@ public class ProxyService {
 
     private Proxy getProxyFromPropertiesFile() {
 
-        InputStream inputStream = null;
+        InputStream inputStream;
         Proxy proxy = Proxy.NO_PROXY;
 
         try {
@@ -40,18 +43,8 @@ public class ProxyService {
 
         } catch (Exception e) {
             System.out.println("Exception: " + e);
-        } finally {
-            closeInputStream(inputStream);
         }
         return proxy;
-    }
-
-    private void closeInputStream(InputStream inputStream) {
-        try {
-            inputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
 }

@@ -1,10 +1,16 @@
 
 package pv260.solid.dip.original;
 
+import org.springframework.stereotype.Component;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 import java.io.IOException;
 
-
+@Component
 public class RecommendedLunchService {
+    @Inject
+    @Named("DarkSkyForecast")
     private final WeatherService weatherService;
 
     public RecommendedLunchService(WeatherService weatherService) {

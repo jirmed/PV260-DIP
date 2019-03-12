@@ -1,10 +1,13 @@
 package pv260.solid.dip.original;
 
 import com.google.gson.Gson;
+import org.springframework.stereotype.Component;
 import pv260.solid.dip.original.model.DarkSkyForecastResponse;
 import pv260.solid.dip.original.model.Location;
 
+import javax.inject.Inject;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.HttpURLConnection;
@@ -16,13 +19,16 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
+@Component
 public class DarkSkyForecastQueryService {
     private static final String SERVICE_URL = "https://api.forecast.io/forecast/";
     private static final String API_KEY = "fc2a39c15866166ea203cabadf93a236";
     private static final int CONNECTION_TIMEOUT = 500;
 
+    @Inject
     private  ProxyService proxyService;
     private final Gson jsonParser;
+
 
     public DarkSkyForecastQueryService() {
         this.jsonParser = new Gson();
@@ -32,10 +38,6 @@ public class DarkSkyForecastQueryService {
         try (Reader responseReader = getReader(localDate, location)) {
             return parseDarkSkyForecastResponse(responseReader);
         }
-    }
-
-    public void setProxyService(ProxyService proxyService) {
-        this.proxyService = proxyService;
     }
 
     private DarkSkyForecastResponse parseDarkSkyForecastResponse(Reader responseReader) {
@@ -51,7 +53,8 @@ public class DarkSkyForecastQueryService {
         Proxy proxy = proxyService==null?Proxy.NO_PROXY:proxyService.getProxy();
         HttpURLConnection connection = (HttpURLConnection) remote.openConnection(proxy);
         connection.setConnectTimeout(CONNECTION_TIMEOUT);
-        return new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8);
+        InputStream inputStream = connection.getInputStream();
+        return new InputStreamReader(inputStream, StandardCharsets.UTF_8);
     }
 
     private String buildUrl(String apiKey, Location location, String time, String... queryParams) {

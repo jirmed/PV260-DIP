@@ -2,20 +2,17 @@
 package pv260.solid.dip.original;
 
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
 public class Main {
 
     public static void main(String[] args) {
-        ProxyService proxyService = new ProxyService();
-        LocationService locationService = new LocationServiceImpl();
-        TimeService timeService = new TimeServiceImpl();
-        OpenWeatherMapQueryService openWeatherMapQueryService = new OpenWeatherMapQueryService();
-        openWeatherMapQueryService.setProxyService(proxyService);
-        WeatherService openWeatherMapService = new OpenWeatherMapService(openWeatherMapQueryService, timeService, locationService);
-        RecommendedOutfitService outfitService = new RecommendedOutfitService(openWeatherMapService);
-        DarkSkyForecastQueryService darkSkyForecastQueryService = new DarkSkyForecastQueryService();
-        darkSkyForecastQueryService.setProxyService(proxyService);
-        WeatherService darkSkyForecastService = new DarkSkyForecastService(darkSkyForecastQueryService, locationService, timeService);
-        RecommendedLunchService lunchService = new RecommendedLunchService(darkSkyForecastService);
+
+        ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+        RecommendedOutfitService outfitService = context.getBean(RecommendedOutfitService.class);
+        RecommendedLunchService lunchService =  context.getBean(RecommendedLunchService.class);
+
         System.out.println("o--         Awesome Lifestyle Page               --o");
         System.out.println("Tomorrow, it would be wise to dress like this:");
         System.out.println(outfitService.recommendOutfitForTomorrow());

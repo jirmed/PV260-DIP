@@ -1,7 +1,9 @@
 package pv260.solid.dip.original;
 
+import org.springframework.stereotype.Component;
 import pv260.solid.dip.original.model.Location;
 
+@Component
 public class LocationServiceImpl implements LocationService {
 
     @Override
