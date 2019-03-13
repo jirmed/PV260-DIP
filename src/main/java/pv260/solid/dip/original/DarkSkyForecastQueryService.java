@@ -50,7 +50,7 @@ public class DarkSkyForecastQueryService {
                 this.getTargetTime(localDate),
                 "units=si"));
 
-        Proxy proxy = proxyService==null?Proxy.NO_PROXY:proxyService.getProxy();
+        Proxy proxy = proxyService.getProxy();
         HttpURLConnection connection = (HttpURLConnection) remote.openConnection(proxy);
         connection.setConnectTimeout(CONNECTION_TIMEOUT);
         InputStream inputStream = connection.getInputStream();

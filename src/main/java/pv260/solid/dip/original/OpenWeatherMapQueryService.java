@@ -38,7 +38,7 @@ public class OpenWeatherMapQueryService {
 
     public OpenWeatherMapResponse query(Location location) throws IOException {
         URL remote = new URL(buildUrl(API_KEY, location));
-        Proxy proxy = proxyService==null?Proxy.NO_PROXY:proxyService.getProxy();
+        Proxy proxy = proxyService.getProxy();
         HttpURLConnection connection = (HttpURLConnection) remote.openConnection(proxy);
         connection.setConnectTimeout(CONNECTION_TIMEOUT);
         try (InputStream responseStream = connection.getInputStream()) {
